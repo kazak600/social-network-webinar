@@ -2,6 +2,7 @@ from aiohttp import web
 
 
 async def index(request):
+    conf = request.app['config']
     return web.Response(text='Hello Aiohttp!')
 
 
