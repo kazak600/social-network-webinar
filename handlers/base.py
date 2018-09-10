@@ -5,6 +5,8 @@ from datetime import datetime
 from aiohttp import web
 from aiohttp_session import get_session
 
+from models.user import User
+
 
 class Index(web.View):
 
@@ -21,8 +23,12 @@ class Login(web.View):
         session = await get_session(self)
         session['last_visit'] = str(datetime.utcnow())
         last_visit = session['last_visit']
-        text = 'Last visited: {}'.format(last_visit)
-        return dict(text='login Aiohttp!, {}'.format(text))
+
+        db = self.app['db']
+        user = await User.get_user(uid=1)
+        document = await db.test.find_one()
+
+        return dict(last_visit='login Aiohttp!, Last visited: {}'.format(last_visit))
 
     async def post(self):
         data = await self.post()
