@@ -6,3 +6,4 @@ def setup_routes(app):
     app.router.add_get('/login', Login.get, name='login')
     app.router.add_post('/login', Login.post)
     app.router.add_get('/signup', Signup.get, name='signup')
+    app.router.add_post('/signup', Signup.post)

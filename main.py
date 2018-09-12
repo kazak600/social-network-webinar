@@ -24,7 +24,7 @@ def main():
 
     setup_routes(app)
     app['config'] = BaseConfig
-    app['db'] = AsyncIOMotorClient().my_database
+    app['db'] = getattr(AsyncIOMotorClient(), BaseConfig.database_name)
 
     logging.basicConfig(level=logging.DEBUG)
     web.run_app(app)
