@@ -8,5 +8,11 @@
 <h3>Index</h3>
 <a href="/login">Login</a>
 <a href="/signup">Signup</a>
+<pre>{{ user }}</pre>
+
+{% if user %}
+    <a href="/logout">Logout</a>
+{% endif %}
+
 </body>
 </html>
