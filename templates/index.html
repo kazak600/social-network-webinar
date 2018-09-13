@@ -8,10 +8,18 @@
 <h3>Index</h3>
 <a href="/login">Login</a>
 <a href="/signup">Signup</a>
+
 <pre>{{ user }}</pre>
 
 {% if user %}
     <a href="/logout">Logout</a>
+    <br>
+    <br>
+    <form action="/save_avatar" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+        <label for="avatar">Avatar</label>
+        <input id="avatar" name="avatar" type="file" value=""/>
+        <input type="submit" value="submit"/>
+    </form>
 {% endif %}
 
 </body>

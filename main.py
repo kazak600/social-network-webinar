@@ -8,7 +8,7 @@ from aiohttp_session import setup
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from routes.base import setup_routes
+from routes.base import setup_routes, setup_static_routes
 from config.common import BaseConfig
 
 
@@ -21,6 +21,8 @@ def main():
     aiohttp_jinja2.setup(app, loader=jinja2.PackageLoader(package_name='main', package_path='templates'))
 
     setup_routes(app)
+    setup_static_routes(app)
+
     app['config'] = BaseConfig
     app['db'] = getattr(AsyncIOMotorClient(), BaseConfig.database_name)
 

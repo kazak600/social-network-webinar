@@ -32,15 +32,15 @@ class Login(web.View):
 
         user = await User.get_user(db=self.app['db'], email=email)
         if user.get('error'):
-            location = self.app.router['login'].url_for()
-            return web.HTTPFound(location=location)
+            return web.HTTPNotFound()
 
         if user['password'] == hashlib.sha256(password.encode('utf8')).hexdigest():
             session = await get_session(self)
             session['user'] = user
+            location = self.app.router['index'].url_for()
+            return web.HTTPFound(location=location)
 
-        location = self.app.router['index'].url_for()
-        return web.HTTPFound(location=location)
+        return web.HTTPNotFound()
 
 
 class Signup(web.View):
