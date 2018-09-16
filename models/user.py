@@ -5,9 +5,6 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 class User:
 
-    def __init__(self):
-        pass
-
     @staticmethod
     async def get_user_by_email(db: AsyncIOMotorDatabase, email: str):
         user = await db.users.find_one({'email': email})
@@ -45,3 +42,9 @@ class User:
     async def save_avatar_url(db: AsyncIOMotorDatabase, user_id: str, url: str):
         if url and user_id:
             db.users.update_one({'_id': ObjectId(user_id)}, {'$set': {'avatar_url': url}})
+
+    @staticmethod
+    async def get_user_friends_suggestions(db: AsyncIOMotorDatabase, user_id: str, limit=20):
+        query = {'_id': {'$ne': ObjectId(user_id)}}
+        users = await db.users.find(query).to_list(limit)
+        return users

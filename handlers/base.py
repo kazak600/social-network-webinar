@@ -17,8 +17,7 @@ class Index(web.View):
         user = {}
         posts = []
         if 'user' in session:
-            user = session['user']
-            posts = await Post.get_posts_by_user(db=self.app['db'], user_id=user['_id'])
+            posts = await Post.get_posts_by_user(db=self.app['db'], user_id=session['user']['_id'])
 
         return dict(conf=conf, user=user, posts=posts)
 

@@ -4,7 +4,7 @@ import aiohttp_jinja2
 import jinja2
 from aiohttp import web
 
-from aiohttp_session import setup, get_session
+from aiohttp_session import setup, get_session, session_middleware
 from aiohttp_session.cookie_storage import EncryptedCookieStorage
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -26,6 +26,17 @@ async def current_user_ctx_processor(request):
     return dict(current_user=user, is_anonymous=is_anonymous)
 
 
+@web.middleware
+async def user_session_middleware(request, handler):
+    request.session = await get_session(request)
+    response = await handler(request)
+    return response
+
+
+def setup_middlewares(app):
+    app.middlewares.append(user_session_middleware)
+
+
 def main():
     app = web.Application(debug=True)
 
@@ -39,6 +50,7 @@ def main():
 
     setup_routes(app)
     setup_static_routes(app)
+    setup_middlewares(app)
 
     app['config'] = BaseConfig
     app['db'] = getattr(AsyncIOMotorClient(), BaseConfig.database_name)
