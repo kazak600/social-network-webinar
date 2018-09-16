@@ -30,7 +30,7 @@ class Login(web.View):
         email = data['email']
         password = data['password']
 
-        user = await User.get_user(db=self.app['db'], email=email)
+        user = await User.get_user_by_email(db=self.app['db'], email=email)
         if user.get('error'):
             return web.HTTPNotFound()
 

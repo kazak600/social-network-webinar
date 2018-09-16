@@ -9,13 +9,22 @@ class User:
         pass
 
     @staticmethod
-    async def get_user(db: AsyncIOMotorDatabase, email: str):
+    async def get_user_by_email(db: AsyncIOMotorDatabase, email: str):
         user = await db.users.find_one({'email': email})
         if user:
             user['_id'] = str(user['_id'])
             return user
         else:
             return dict(error='User with email {} not found'.format(email))
+
+    @staticmethod
+    async def get_user_by_id(db: AsyncIOMotorDatabase, user_id: str):
+        user = await db.users.find_one({'_id': ObjectId(user_id)})
+        if user:
+            user['_id'] = str(user['_id'])
+            return user
+        else:
+            return None
 
     @staticmethod
     async def create_new_user(db: AsyncIOMotorDatabase, data):

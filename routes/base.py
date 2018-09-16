@@ -11,8 +11,8 @@ def setup_routes(app):
     app.router.add_get('/signup', Signup.get, name='signup')
     app.router.add_post('/signup', Signup.post)
     app.router.add_get('/logout', Logout.get, name='logout')
-    app.router.add_post('/save_avatar', Avatar.post)
+    app.router.add_post('/save_avatar', Avatar.post, name='save_avatar')
 
 
 def setup_static_routes(app):
-    app.router.add_static('/static/', path=BaseConfig.static_dir, name='static')
+    app.router.add_static('/static/', path=BaseConfig.STATIC_DIR, name='static')

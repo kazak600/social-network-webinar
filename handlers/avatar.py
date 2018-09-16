@@ -20,13 +20,12 @@ class Avatar(web.View):
         user = session['user']
         data = await self.post()
         avatar = data['avatar']
-        avatar_url = os.path.join(BaseConfig.static_dir + '/avatars/', avatar.filename)
 
-        with open(avatar_url, 'wb') as f:
+        with open(os.path.join(BaseConfig.STATIC_DIR + '/avatars/', avatar.filename), 'wb') as f:
             content = avatar.file.read()
             f.write(content)
 
-        await User.save_avatar_url(db=self.app['db'], user_id=user['_id'], url=avatar_url)
+        await User.save_avatar_url(db=self.app['db'], user_id=user['_id'], url='/avatars/{}'.format(avatar.filename))
 
         location = self.app.router['index'].url_for()
         return web.HTTPFound(location=location)
