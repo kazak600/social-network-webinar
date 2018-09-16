@@ -5,6 +5,7 @@ from aiohttp import web
 from aiohttp_session import get_session
 
 from models.user import User
+from models.post import Post
 
 
 class Index(web.View):
@@ -14,9 +15,12 @@ class Index(web.View):
         conf = self.app['config']
         session = await get_session(self)
         user = {}
+        posts = []
         if 'user' in session:
             user = session['user']
-        return dict(conf=conf, user=user)
+            posts = await Post.get_posts_by_user(db=self.app['db'], user_id=user['_id'])
+
+        return dict(conf=conf, user=user, posts=posts)
 
 
 class Login(web.View):
@@ -52,7 +56,7 @@ class Signup(web.View):
     async def post(self):
         data = await self.post()
         result = await User.create_new_user(db=self.app['db'], data=data)
-        if not result or result.get('error'):
+        if not result:
             # todo: show error on ui!
             location = self.app.router['signup'].url_for()
             return web.HTTPFound(location=location)
@@ -69,3 +73,15 @@ class Logout(web.View):
 
         location = self.app.router['login'].url_for()
         return web.HTTPFound(location=location)
+
+
+class PostView(web.View):
+
+    async def post(self):
+        data = await self.post()
+        session = await get_session(self)
+        if 'user' in session and data['message']:
+            await Post.create_post(db=self.app['db'], user_id=session['user']['_id'], message=data['message'])
+            return web.HTTPFound(location=self.app.router['index'].url_for())
+
+        return web.HTTPForbidden()
