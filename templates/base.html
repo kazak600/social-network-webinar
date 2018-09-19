@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% block head %}
+        <meta charset="UTF-8">
+        <title>{{title}}</title>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.css" />
+    {% endblock %}
+</head>
+<body>
+
+{% block nav %}
+<nav class="navbar is-light" role="navigation" aria-label="main navigation">
+
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{{ url('index') }}">
+            <img style="height: 60px; width: 200px; max-height: 60px"
+                 src="{{ url('static', filename='python_logo.png') }}"
+                 alt="Social network">
+        </a>
+    </div>
+
+    <div class="navbar-menu">
+
+        <div class="navbar-start">
+            <a class="navbar-item" href="{{ url('index') }}">Home</a>
+            {% if current_user %}
+                <a class="navbar-item" href="{{ url('friends') }}">Find friends</a>
+                <a class="navbar-item" href="{{ url('messages') }}">My messages</a>
+            {% endif %}
+        </div>
+
+        <div class="navbar-end">
+            {% if is_anonymous %}
+                <a class="navbar-item" href="{{ url('login') }}">Login</a>
+                <a class="navbar-item" href="{{ url('signup') }}">Signup</a>
+            {% endif %}
+
+            {% if current_user %}
+                <a class="navbar-item" href="{{ url('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+
+    </div>
+</nav>
+{% endblock %}
+
+<section class="section">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</section>
+
+</body>
+</html>

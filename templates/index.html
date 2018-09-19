@@ -1,37 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-    <!--todo: remove bulma from static, add CDN-->
-    <link rel="stylesheet" type="text/css" href="{{ url('static', filename='bulma.css') }}" />
-</head>
-<body>
-<h3>Main page</h3>
+{% extends "base.html" %}
 
-{% if is_anonymous %}
-<p>Hi, anonymous!</p>
-<a href="{{ url('login') }}">Login</a>
-<br>
-<a href="{{ url('signup') }}">Signup</a>
-<br>
-{% endif %}
+{% set title = "Main page" %}
+
+{% block content %}
+<h3>{{ title }}</h3>
 
 {% if current_user %}
-    <a href="{{ url('logout') }}">Logout</a>
-    <br>
-    <a href="{{ url('friends') }}">Find friends</a>
-    <br>
-    <a href="{{ url('messages') }}">My messages</a>
-    <br>
-    <br>
     <p>Hi, {{ current_user.first_name }} {{ current_user.last_name }}!</p>
     <br>
-
     {% if current_user.avatar_url %}
-        <figure class="image is-256x256">
-            <img src="{{ url('static', filename=current_user.avatar_url) }}">
-        </figure>
+        <div>
+            <figure class="image is-128x128">
+                <img src="{{ url('static', filename=current_user.avatar_url) }}">
+            </figure>
+        </div>
     {% endif %}
     <br><br><br><br>
 
@@ -72,5 +54,4 @@
 
 {% endif %}
 
-</body>
-</html>
+{% endblock %}
