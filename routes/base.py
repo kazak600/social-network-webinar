@@ -1,6 +1,7 @@
 from handlers.base import Index, Login, Signup, Logout, PostView
 from handlers.avatar import Avatar
-from handlers.friends import FriendsView, MessageView
+from handlers.friends import FriendsView
+from handlers.messages import MessageView
 
 from config.common import BaseConfig
 
