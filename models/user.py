@@ -10,6 +10,7 @@ class User:
         user = await db.users.find_one({'email': email})
         if user:
             user['_id'] = str(user['_id'])
+            user['friends'] = [str(uid) for uid in user['friends']]
             return user
         else:
             return dict(error='User with email {} not found'.format(email))
@@ -19,6 +20,7 @@ class User:
         user = await db.users.find_one({'_id': ObjectId(user_id)})
         if user:
             user['_id'] = str(user['_id'])
+            user['friends'] = [str(uid) for uid in user['friends']]
             return user
         else:
             return None
@@ -48,3 +50,7 @@ class User:
         query = {'_id': {'$ne': ObjectId(user_id)}}
         users = await db.users.find(query).to_list(limit)
         return users
+
+    @staticmethod
+    async def add_friend(db: AsyncIOMotorDatabase, user_id: str, friend_id: str):
+        await db.users.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'friends': ObjectId(friend_id)}})
