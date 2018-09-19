@@ -54,3 +54,9 @@ class User:
     @staticmethod
     async def add_friend(db: AsyncIOMotorDatabase, user_id: str, friend_id: str):
         await db.users.update_one({'_id': ObjectId(user_id)}, {'$addToSet': {'friends': ObjectId(friend_id)}})
+
+    @staticmethod
+    async def get_user_friends(db: AsyncIOMotorDatabase, user_id: str, limit=20):
+        user = await db.users.find_one({'_id': ObjectId(user_id)})
+        user_friends = await db.users.find({'_id': {'$in': user['friends']}}).to_list(limit)
+        return user_friends

@@ -20,7 +20,7 @@
 {% if current_user %}
     <a href="{{ url('logout') }}">Logout</a>
     <br>
-    <a href="{{ url('friends') }}">Friends</a>
+    <a href="{{ url('friends') }}">Find friends</a>
     <br>
     <br>
     <p>Hi, {{ current_user.first_name }} {{ current_user.last_name }}!</p>
@@ -52,6 +52,7 @@
         <li>{{ post.message }} | {{ post.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</li>
     {% endfor %}
     </ul>
+    <pre>{{ friends }}</pre>
 
 {% endif %}
 

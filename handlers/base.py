@@ -16,10 +16,12 @@ class Index(web.View):
         session = await get_session(self)
         user = {}
         posts = []
+        friends = []
         if 'user' in session:
             posts = await Post.get_posts_by_user(db=self.app['db'], user_id=session['user']['_id'])
+            friends = await User.get_user_friends(db=self.app['db'], user_id=session['user']['_id'])
 
-        return dict(conf=conf, user=user, posts=posts)
+        return dict(conf=conf, user=user, posts=posts, friends=friends)
 
 
 class Login(web.View):
