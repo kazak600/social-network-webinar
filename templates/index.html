@@ -22,6 +22,8 @@
     <br>
     <a href="{{ url('friends') }}">Find friends</a>
     <br>
+    <a href="{{ url('messages') }}">My messages</a>
+    <br>
     <br>
     <p>Hi, {{ current_user.first_name }} {{ current_user.last_name }}!</p>
     <br>
@@ -52,7 +54,21 @@
         <li>{{ post.message }} | {{ post.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</li>
     {% endfor %}
     </ul>
-    <pre>{{ friends }}</pre>
+    <br>
+    <br>
+    <p>My friends</p>
+    <ul>
+        {% for friend in friends %}
+            <li>{{ friend.first_name }} {{ friend.last_name }}</li>
+            <form action="{{ url('send_message') }}" method="post">
+                <label for="message_text">Send message</label>
+                <input id="message_text" name="message_text" type="text" value=""/>
+                <input type="hidden" name="to_user" value="{{ friend._id }}">
+                <button type="submit">Send...</button>
+            </form>
+            <br>
+        {% endfor %}
+    </ul>
 
 {% endif %}
 
