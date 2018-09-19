@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Find friends</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<a href="{{ url('index') }}">Main page</a>
-<br>
-{% if users %}
-    {% for user in users %}
-        <p>{{ user.first_name }} {{ user.last_name }}</p>
-        <form action="{{ url('add_friend') }}" method="post">
-            <input type="hidden" name="uid" value="{{ user._id }}">
-            <button type="submit">add friend</button>
-        </form>
-    {% endfor %}
-{% endif %}
-</body>
-</html>
+{% set title = "Find friends" %}
+
+{% block content %}
+    {% if users %}
+        {% for user in users %}
+            <p>{{ user.first_name }} {{ user.last_name }}</p>
+            <form action="{{ url('add_friend') }}" method="post">
+                <input type="hidden" name="uid" value="{{ user._id }}">
+                <button type="submit">add friend</button>
+            </form>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
