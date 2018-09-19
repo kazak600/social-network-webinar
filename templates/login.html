@@ -1,22 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<div>
-    <p>{{ last_visit }}</p>
+{% set title = "Login" %}
+
+{% block content %}
+<div class="columns">
+    <div class="column is-6">
+        <form action="{{ url('login') }}" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
+            <div class="field">
+                <p class="control has-icons-left has-icons-right">
+                    <input class="input" name="email" type="email" placeholder="Email">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-envelope"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control has-icons-left">
+                    <input class="input" name="password" type="password" placeholder="Password">
+                    <span class="icon is-small is-left">
+                        <i class="fas fa-lock"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="field">
+                <p class="control">
+                    <button class="button is-success">
+                        Login
+                    </button>
+                </p>
+            </div>
+        </form>
+    </div>
 </div>
-
-<form action="/login" method="post" accept-charset="utf-8" enctype="application/x-www-form-urlencoded">
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" value="" autofocus/>
-    <label for="password">Password</label>
-    <input id="password" name="password" type="password" value=""/>
-    <input type="submit" value="login"/>
-</form>
-
-</body>
-</html>
+{% endblock %}
