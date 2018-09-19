@@ -3,6 +3,51 @@
 {% set title = "Messages" %}
 
 {% block content %}
-    <pre>{{ inbox_messages }}</pre>
-    <pre>{{ send_messages }}</pre>
+<h1 class="title"><a href="{{ url('messages', type='inbox') }}">Inbox</a> | <a href="{{ url('messages', type='outbox') }}">Outbox</a></h1>
+
+<div class="columns">
+    <div class="column">
+        {% for message in messages %}
+            <div class="box">
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-64x64">
+                            <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                        </figure>
+                    </div>
+                    <div class="media-content">
+                        <div class="content">
+                            <p>
+                                <strong>John Smith</strong>
+                                <small>@johnsmith</small>
+                                <small>{{ message.date_created.strftime('%Y-%m-%d %H:%M') }}</small>
+                                <br>
+                                {{ message.message }}
+                            </p>
+                        </div>
+                        <nav class="level is-mobile">
+                            <div class="level-left">
+                                <a class="level-item" aria-label="reply">
+                                    <span class="icon is-small">
+                                      <i class="fas fa-reply" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                                <a class="level-item" aria-label="retweet">
+                                    <span class="icon is-small">
+                                      <i class="fas fa-retweet" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                                <a class="level-item" aria-label="like">
+                                    <span class="icon is-small">
+                                      <i class="fas fa-heart" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </nav>
+                    </div>
+                </article>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

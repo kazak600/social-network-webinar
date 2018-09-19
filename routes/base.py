@@ -22,7 +22,7 @@ def setup_routes(app):
     app.router.add_get('/friends', FriendsView.get, name='friends')
     app.router.add_post('/add_friend', FriendsView.post, name='add_friend')
 
-    app.router.add_get('/messages', MessageView.get, name='messages')
+    app.router.add_get('/messages/{type}', MessageView.get, name='messages')
     app.router.add_post('/send_message', MessageView.post, name='send_message')
 
 

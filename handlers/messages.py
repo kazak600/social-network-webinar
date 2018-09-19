@@ -11,9 +11,13 @@ class MessageView(web.View):
         if 'user' not in self.session:
             return web.HTTPForbidden()
 
-        inbox_messages = await Message.get_inbox_messages_by_user(db=self.app['db'], user_id=self.session['user']['_id'])
-        send_messages = await Message.get_send_messages_by_user(db=self.app['db'], user_id=self.session['user']['_id'])
-        return dict(inbox_messages=inbox_messages, send_messages=send_messages)
+        if self.match_info['type'] == 'inbox':
+            messages = await Message.get_inbox_messages_by_user(db=self.app['db'], user_id=self.session['user']['_id'])
+        elif self.match_info['type'] == 'outbox':
+            messages = await Message.get_send_messages_by_user(db=self.app['db'], user_id=self.session['user']['_id'])
+        else:
+            messages = []
+        return dict(messages=messages)
 
     async def post(self):
         if 'user' not in self.session:

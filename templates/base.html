@@ -27,7 +27,7 @@
             <a class="navbar-item" href="{{ url('index') }}">Home</a>
             {% if current_user %}
                 <a class="navbar-item" href="{{ url('friends') }}">Find friends</a>
-                <a class="navbar-item" href="{{ url('messages') }}">My messages</a>
+                <a class="navbar-item" href="{{ url('messages', type='inbox') }}">My messages</a>
             {% endif %}
         </div>
 
