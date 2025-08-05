@@ -1,4 +1,4 @@
-aiohttp==3.10.11
+aiohttp==3.12.14
 aiohttp-jinja2==1.0.0
 aiohttp-session==2.7.0
 asn1crypto==0.24.0
